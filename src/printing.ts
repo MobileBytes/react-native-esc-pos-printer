@@ -17,6 +17,8 @@ import {
   QRCODE_TYPE,
   PRINT_TIMEOUT_MIN,
   PRINT_TIMEOUT_MAX,
+  printTextColor,
+  EPOS_COLOR,
 } from './constants';
 import type {
   IMonitorStatus,
@@ -51,6 +53,7 @@ class Printing {
     bold: boolean;
     underline: boolean;
     smooth: boolean;
+    color: printTextColor;
   };
   private _currentFontWidth: number;
 
@@ -64,6 +67,7 @@ class Printing {
       bold: false,
       underline: false,
       smooth: false,
+      color: printTextColor.black,
     };
     this._currentFontWidth = 1;
   }
@@ -79,6 +83,7 @@ class Printing {
       bold: false,
       underline: false,
       smooth: false,
+      color: printTextColor.black,
     };
   }
 
@@ -254,6 +259,25 @@ class Printing {
   }
 
   /**
+   * Convert To Esc Pos Color
+   *
+   * @param value number value to change
+   * @returns The equivalent esc pos string
+   */
+  _convertToEposColor(value: printTextColor)  {
+    const colorMap = {
+      [printTextColor.black] : EPOS_COLOR.EPOS2_COLOR_1,
+      [printTextColor.red] : EPOS_COLOR.EPOS2_COLOR_2,
+      [printTextColor.blackBold] : EPOS_COLOR.EPOS2_COLOR_3,
+      [printTextColor.redBold] : EPOS_COLOR.EPOS2_COLOR_4,
+    }
+
+    const res = colorMap[value];
+
+    return res;
+  }
+
+  /**
    * Bold text
    *
    * @param  {boolean}          value  true to turn on bold, false to turn off bold
@@ -277,6 +301,32 @@ class Printing {
 
     return this;
   }
+  /**
+   * Text Color
+   *
+   * @param  {}          value  change text color to red or black, default black
+   * @return {object}                  Return the object, for easy chaining commands
+   *
+   */
+  setColor(value: printTextColor) {
+    if (!(value in printTextColor)) {
+      value = EPOS_COLOR.EPOS2_COLOR_1;
+    }
+
+    this._state.color = value;
+
+    this._queue([
+      PRINTING_COMMANDS.COMMAND_ADD_TEXT_STYLE,
+      [
+        this._convertToEposBool(this._state.underline),
+        this._convertToEposBool(this._state.bold),
+        this._convertToEposColor(this._state.color),
+      ],
+    ]);
+
+    return this;
+  }
+
 
   /**
    * Smooth text

@@ -17,6 +17,7 @@ import {
   DEFAULT_FONT_A_CHARS_PER_LINE,
   DEFAULT_PAPER_WIDTH,
   PRINTER_LANGUAGE,
+  printTextColor,
 } from './constants';
 
 export * from './discovery';
@@ -144,7 +145,7 @@ const _default = {
   printing,
 };
 
-export { getPrinterSeriesByName, PRINTER_SERIES, PRINTER_LANGUAGE };
+export { getPrinterSeriesByName, PRINTER_SERIES, PRINTER_LANGUAGE, printTextColor };
 export type {
   PrinerEvents,
   EventListenerCallback,
