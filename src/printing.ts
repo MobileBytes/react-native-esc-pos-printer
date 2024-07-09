@@ -264,13 +264,13 @@ class Printing {
    * @param value number value to change
    * @returns The equivalent esc pos string
    */
-  _convertToEposColor(value: printTextColor)  {
+  _convertToEposColor(value: printTextColor) {
     const colorMap = {
-      [printTextColor.black] : EPOS_COLOR.EPOS2_COLOR_1,
-      [printTextColor.red] : EPOS_COLOR.EPOS2_COLOR_2,
-      [printTextColor.blackBold] : EPOS_COLOR.EPOS2_COLOR_3,
-      [printTextColor.redBold] : EPOS_COLOR.EPOS2_COLOR_4,
-    }
+      [printTextColor.black]: EPOS_COLOR.EPOS2_COLOR_1,
+      [printTextColor.red]: EPOS_COLOR.EPOS2_COLOR_2,
+      [printTextColor.blackBold]: EPOS_COLOR.EPOS2_COLOR_3,
+      [printTextColor.redBold]: EPOS_COLOR.EPOS2_COLOR_4,
+    };
 
     const res = colorMap[value];
 
@@ -326,7 +326,6 @@ class Printing {
 
     return this;
   }
-
 
   /**
    * Smooth text

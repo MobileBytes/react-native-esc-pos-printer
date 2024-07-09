@@ -145,7 +145,12 @@ const _default = {
   printing,
 };
 
-export { getPrinterSeriesByName, PRINTER_SERIES, PRINTER_LANGUAGE, printTextColor };
+export {
+  getPrinterSeriesByName,
+  PRINTER_SERIES,
+  PRINTER_LANGUAGE,
+  printTextColor,
+};
 export type {
   PrinerEvents,
   EventListenerCallback,
