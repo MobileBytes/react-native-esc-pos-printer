@@ -67,7 +67,7 @@ class Printing {
       bold: false,
       underline: false,
       smooth: false,
-      color: printTextColor.black,
+      color: printTextColor.Black,
     };
     this._currentFontWidth = 1;
   }
@@ -83,7 +83,7 @@ class Printing {
       bold: false,
       underline: false,
       smooth: false,
-      color: printTextColor.black,
+      color: printTextColor.Black,
     };
   }
 
@@ -262,16 +262,18 @@ class Printing {
   /**
    * Convert To Esc Pos Color
    *
-   * @param {printTextColor}  value printTextColor enum value   
+   * @param {printTextColor}  value printTextColor enum value
    * @returns The equivalent esc pos integer to send to java code
    */
-  _convertToEposColor(value: printTextColor)  {
+  _convertToEposColor(value: printTextColor) {
+    if (!(value in printTextColor)) return EPOS_COLOR.EPOS2_COLOR_1;
+
     const colorMap = {
-      [printTextColor.black] : EPOS_COLOR.EPOS2_COLOR_1,
-      [printTextColor.red] : EPOS_COLOR.EPOS2_COLOR_2,
-      [printTextColor.blackBold] : EPOS_COLOR.EPOS2_COLOR_3,
-      [printTextColor.redBold] : EPOS_COLOR.EPOS2_COLOR_4,
-    }
+      [printTextColor.Black]: EPOS_COLOR.EPOS2_COLOR_1,
+      [printTextColor.Red]: EPOS_COLOR.EPOS2_COLOR_2,
+      [printTextColor.BlackBold]: EPOS_COLOR.EPOS2_COLOR_3,
+      [printTextColor.RedBold]: EPOS_COLOR.EPOS2_COLOR_4,
+    };
 
     const res = colorMap[value];
 
@@ -306,12 +308,12 @@ class Printing {
   /**
    * Text Color
    *
-   * @param  {printTextColor}          value  change text color to red or black, default black
+   * @param  {printTextColor}   value  change text color to red or black, default black
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  setColor(value: printTextColor) {
-    if (!(value in printTextColor)) {
+  color(value: printTextColor) {
+    if (typeof value === 'undefined') {
       value = EPOS_COLOR.EPOS2_COLOR_1;
     }
 
@@ -322,13 +324,12 @@ class Printing {
       [
         this._convertToEposBool(this._state.underline),
         this._convertToEposBool(this._state.bold),
-        this._state.color,
+        this._convertToEposColor(this._state.color),
       ],
     ]);
 
     return this;
   }
-
 
   /**
    * Smooth text
