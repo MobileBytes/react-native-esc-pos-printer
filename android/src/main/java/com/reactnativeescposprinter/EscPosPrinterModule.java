@@ -639,7 +639,25 @@ public class EscPosPrinterModule extends ReactContextBaseJavaModule implements R
         mPrinter.addFeedLine(params.getInt(0));
         break;
       case PrintingCommands.COMMAND_ADD_TEXT_STYLE:
-        mPrinter.addTextStyle(Printer.FALSE, params.getInt(0), params.getInt(1), params.getInt(2));
+        int colorValue = params.getInt(2);
+        int color;
+        switch (colorValue) {
+          case 0:
+              color = Printer.COLOR_1;
+              break;
+          case 1:
+              color = Printer.COLOR_2;
+              break;
+          case 2:
+              color = Printer.COLOR_3;
+              break;
+          case 3:
+              color = Printer.COLOR_4;
+              break;
+          default:
+            color = Printer.COLOR_1; 
+        }
+        mPrinter.addTextStyle(Printer.FALSE, params.getInt(0), params.getInt(1), color);
         break;
       case PrintingCommands.COMMAND_ADD_TEXT_SIZE:
         mPrinter.addTextSize(params.getInt(0), params.getInt(1));
