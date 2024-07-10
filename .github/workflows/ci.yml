@@ -22,6 +22,11 @@ jobs:
 
       - name: Typecheck files
         run: yarn typecheck
+    
+      - name: Publish
+        run: npm publish dist/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REST_NPM_HRPOS_TOKEN }}
 
   test:
     runs-on: ubuntu-latest
