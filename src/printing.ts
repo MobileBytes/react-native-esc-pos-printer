@@ -301,6 +301,8 @@ class Printing {
         this._convertToEposColor(this._state.color),
       ],
     ]);
+
+    return this;
   }
 
   /**
