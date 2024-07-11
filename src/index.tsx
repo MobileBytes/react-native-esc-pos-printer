@@ -25,13 +25,11 @@ import {
   DEFAULT_FONT_A_CHARS_PER_LINE,
   DEFAULT_PAPER_WIDTH,
   PRINTER_LANGUAGE,
+  printTextColor,
 } from './constants';
 
-const {
-  EscPosPrinter,
-  EscPosPrinterDiscovery,
-  ThePrinterWrapper,
-} = NativeModules;
+const { EscPosPrinter, EscPosPrinterDiscovery, ThePrinterWrapper } =
+  NativeModules;
 
 const discoveryEventEmmiter = new NativeEventEmitter(EscPosPrinterDiscovery);
 const printEventEmmiter = new NativeEventEmitter(EscPosPrinter);
@@ -186,7 +184,12 @@ const _default = {
   printing,
 };
 
-export { getPrinterSeriesByName, PRINTER_SERIES, PRINTER_LANGUAGE };
+export {
+  getPrinterSeriesByName,
+  PRINTER_SERIES,
+  PRINTER_LANGUAGE,
+  printTextColor,
+};
 export type {
   PrinerEvents,
   EventListenerCallback,

@@ -16,6 +16,8 @@ import {
   QRCODE_TYPE,
   PRINT_TIMEOUT_MIN,
   PRINT_TIMEOUT_MAX,
+  printTextColor,
+  EPOS_COLOR,
 } from './constants';
 import type {
   IMonitorStatus,
@@ -50,6 +52,7 @@ class Printing {
     bold: boolean;
     underline: boolean;
     smooth: boolean;
+    color: printTextColor;
   };
   private _currentFontWidth: number;
 
@@ -63,6 +66,7 @@ class Printing {
       bold: false,
       underline: false,
       smooth: false,
+      color: printTextColor.Black,
     };
     this._currentFontWidth = 1;
   }
@@ -78,6 +82,7 @@ class Printing {
       bold: false,
       underline: false,
       smooth: false,
+      color: printTextColor.Black,
     };
   }
 
@@ -234,6 +239,7 @@ class Printing {
       [
         this._convertToEposBool(this._state.underline),
         this._convertToEposBool(this._state.bold),
+        this._convertToEposColor(this._state.color),
       ],
     ]);
 
@@ -250,6 +256,51 @@ class Printing {
     const res = value ? EPOS_BOOLEANS.EPOS2_TRUE : EPOS_BOOLEANS.EPOS2_FALSE;
 
     return res;
+  }
+
+  /**
+   * Convert To Esc Pos Color
+   *
+   * @param {printTextColor}  value printTextColor enum value
+   * @returns The equivalent esc pos integer to send to java code
+   */
+  _convertToEposColor(value: printTextColor) {
+    if (!(value in printTextColor)) return EPOS_COLOR.EPOS2_COLOR_1;
+
+    const colorMap = {
+      [printTextColor.Black]: EPOS_COLOR.EPOS2_COLOR_1,
+      [printTextColor.Red]: EPOS_COLOR.EPOS2_COLOR_2,
+      [printTextColor.BlackBold]: EPOS_COLOR.EPOS2_COLOR_3,
+      [printTextColor.RedBold]: EPOS_COLOR.EPOS2_COLOR_4,
+    };
+
+    const res = colorMap[value];
+
+    return res;
+  }
+
+  /**
+   * Text Color
+   *
+   * @param  {printTextColor}   value  change text color to red or black, default black
+   * @return {object}                  Return the object, for easy chaining commands
+   *
+   */
+  color(value: printTextColor) {
+    if (typeof value === 'undefined') {
+      value = EPOS_COLOR.EPOS2_COLOR_1;
+    }
+
+    this._state.color = value;
+
+    this._queue([
+      PRINTING_COMMANDS.COMMAND_ADD_TEXT_STYLE,
+      [
+        this._convertToEposBool(this._state.underline),
+        this._convertToEposBool(this._state.bold),
+        this._convertToEposColor(this._state.color),
+      ],
+    ]);
   }
 
   /**
@@ -271,6 +322,7 @@ class Printing {
       [
         this._convertToEposBool(this._state.underline),
         this._convertToEposBool(this._state.bold),
+        this._convertToEposColor(this._state.color),
       ],
     ]);
 

@@ -351,3 +351,10 @@ export const EPOS_DRAWER_KICK_CONNECTOR: {
 
 export const PRINT_TIMEOUT_MIN = 5000;
 export const PRINT_TIMEOUT_MAX = 600000;
+
+export enum printTextColor {
+  Black = 1,
+  Red = 2,
+  BlackBold = 3,
+  RedBold = 4,
+}
